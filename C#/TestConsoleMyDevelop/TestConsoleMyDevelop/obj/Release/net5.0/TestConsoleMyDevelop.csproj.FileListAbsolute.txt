@@ -1,0 +1,15 @@
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\bin\Release\net5.0\TestConsoleMyDevelop.exe
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\bin\Release\net5.0\TestConsoleMyDevelop.deps.json
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\bin\Release\net5.0\TestConsoleMyDevelop.runtimeconfig.json
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\bin\Release\net5.0\TestConsoleMyDevelop.runtimeconfig.dev.json
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\bin\Release\net5.0\TestConsoleMyDevelop.dll
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\bin\Release\net5.0\ref\TestConsoleMyDevelop.dll
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\bin\Release\net5.0\TestConsoleMyDevelop.pdb
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\obj\Release\net5.0\TestConsoleMyDevelop.GeneratedMSBuildEditorConfig.editorconfig
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\obj\Release\net5.0\TestConsoleMyDevelop.AssemblyInfoInputs.cache
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\obj\Release\net5.0\TestConsoleMyDevelop.AssemblyInfo.cs
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\obj\Release\net5.0\TestConsoleMyDevelop.csproj.CoreCompileInputs.cache
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\obj\Release\net5.0\TestConsoleMyDevelop.dll
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\obj\Release\net5.0\ref\TestConsoleMyDevelop.dll
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\obj\Release\net5.0\TestConsoleMyDevelop.pdb
+C:\work\git\MyDevelop\C#\TestConsoleMyDevelop\TestConsoleMyDevelop\obj\Release\net5.0\TestConsoleMyDevelop.genruntimeconfig.cache
