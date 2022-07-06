@@ -1,0 +1,31 @@
+﻿@using Toolbelt.Blazor.FileDropZone
+
+@page "/file-upload-test"
+
+<h3>FileUploadTest</h3>
+
+<div class="row">
+    <div class="col">
+        <FileDropZone class="m-1 drop-zone">
+            <InputFile OnChange="OnInputFileChange" multiple />
+            <span class="drug">ここにファイルをドラッグしてください</span>
+        </FileDropZone>
+    </div>
+</div>
+@if (uploadState == EnumUploadState.Waiting)
+{
+    <div class="row">
+        <div class="col">
+            <ul class="list-group">
+                @foreach (var item in uploadFiles)
+                {
+                    <li class="list-group-item">@item.FileName</li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+else if (uploadState == EnumUploadState.Loading)
+{
+    <p>Loading...</p>
+}

@@ -1,0 +1,16 @@
+[b-eutpgxeij9] .drop-zone {
+    padding: 32px;
+    border: dashed 2px black;
+    transition: border linear 0.2s;
+}
+
+    [b-eutpgxeij9] .drop-zone.hover {
+        border: dashed 2px darkorange;
+    }
+
+.drug[b-eutpgxeij9] {
+    color: #999;
+    font-size: 20px;
+    display: block;
+    text-align: center;
+}
