@@ -1,32 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\work\\マイ プログラム\\TestBlazorServer\\TestBlazorServer\\TestBlazorServer.csproj": {}
+    "C:\\Users\\小平恭兵\\Documents\\MyDevelop\\Blazor\\TestBlazorServer\\TestBlazorServer\\TestBlazorServer.csproj": {}
   },
   "projects": {
-    "C:\\work\\マイ プログラム\\TestBlazorServer\\TestBlazorServer\\TestBlazorServer.csproj": {
+    "C:\\Users\\小平恭兵\\Documents\\MyDevelop\\Blazor\\TestBlazorServer\\TestBlazorServer\\TestBlazorServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\work\\マイ プログラム\\TestBlazorServer\\TestBlazorServer\\TestBlazorServer.csproj",
+        "projectUniqueName": "C:\\Users\\小平恭兵\\Documents\\MyDevelop\\Blazor\\TestBlazorServer\\TestBlazorServer\\TestBlazorServer.csproj",
         "projectName": "TestBlazorServer",
-        "projectPath": "C:\\work\\マイ プログラム\\TestBlazorServer\\TestBlazorServer\\TestBlazorServer.csproj",
-        "packagesPath": "C:\\Users\\1207r00060\\.nuget\\packages\\",
-        "outputPath": "C:\\work\\マイ プログラム\\TestBlazorServer\\TestBlazorServer\\obj\\",
+        "projectPath": "C:\\Users\\小平恭兵\\Documents\\MyDevelop\\Blazor\\TestBlazorServer\\TestBlazorServer\\TestBlazorServer.csproj",
+        "packagesPath": "C:\\Users\\小平恭兵\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\小平恭兵\\Documents\\MyDevelop\\Blazor\\TestBlazorServer\\TestBlazorServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\1207r00060\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\小平恭兵\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net5.0"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {}
           }
         },
@@ -37,8 +37,8 @@
         }
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
             "Toolbelt.Blazor.FileDropZone": {
               "target": "Package",
@@ -63,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,4 +1,4 @@
 ﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/" Path="C:\work\マイ プログラム\TestBlazorServer\TestBlazorServer\obj\Debug\net5.0\scopedcss\bundle\" />
-  <ContentRoot BasePath="_content/Toolbelt.Blazor.FileDropZone" Path="C:\Users\1207r00060\.nuget\packages\toolbelt.blazor.filedropzone\1.0.1\build\..\staticwebassets\" />
+  <ContentRoot BasePath="/" Path="C:\Users\小平恭兵\Documents\MyDevelop\Blazor\TestBlazorServer\TestBlazorServer\obj\Debug\net5.0\scopedcss\bundle\" />
+  <ContentRoot BasePath="_content/Toolbelt.Blazor.FileDropZone" Path="C:\Users\小平恭兵\.nuget\packages\toolbelt.blazor.filedropzone\1.0.1\build\..\staticwebassets\" />
 </StaticWebAssets>
