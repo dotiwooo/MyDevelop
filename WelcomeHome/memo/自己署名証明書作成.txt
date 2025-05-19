@@ -1,8 +1,0 @@
-# 秘密鍵を生成
-openssl genpkey -algorithm RSA -out key.pem
-
-# CSR（Certificate Signing Request）を生成
-openssl req -new -key key.pem -out csr.pem
-
-# 自己署名証明書を生成
-openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out cert.pem

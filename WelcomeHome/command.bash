@@ -1,1 +1,0 @@
-npm install express path dotenv ejs mysql2 fs body-parser multer 
