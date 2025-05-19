@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>デジタルフォトフレーム</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/app.css">
+    <link rel="stylesheet" href="photo_frame.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="container">
+        <div id="photo-frame" class="photo-frame">
+            <img id="photo" class="photo fade-in" src="" alt="Photo">
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const photos = <%- JSON.stringify(photoList) %>;
+        let currentIndex = 0;
+        let isTransitioning = false;
+
+        function getRandomIndex() {
+            return Math.floor(Math.random() * photos.length);
+        }
+
+        function showNextPhoto() {
+            if (isTransitioning) return;
+
+            const photoElement = document.getElementById('photo');
+            isTransitioning = true;
+            photoElement.classList.remove('fade-in');
+            photoElement.classList.add('fade-out');
+
+            setTimeout(() => {
+                currentIndex = getRandomIndex();
+                photoElement.src = `/picture/photo_frame/test/${photos[currentIndex]}`;
+                photoElement.classList.remove('fade-out');
+                photoElement.classList.add('fade-in');
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 1500); // フェードインの時間を調整
+            }, 1500); // フェードアウトの時間を調整
+        }
+
+        function startSlideshow() {
+            showNextPhoto();
+            setInterval(showNextPhoto, 5000); // 画像の切り替え時間を調整
+        }
+
+        function handleTouch() {
+            window.location.href = '/';
+        }
+
+        window.onload = () => {
+            startSlideshow();
+            const photoFrame = document.getElementById('photo-frame');
+            photoFrame.addEventListener('click', handleTouch);
+            photoFrame.addEventListener('touchstart', handleTouch);
+        };
+    </script>
+</body>
+</html>

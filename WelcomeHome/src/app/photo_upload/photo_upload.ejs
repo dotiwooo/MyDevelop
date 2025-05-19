@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Upload</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="photo_upload.css">
+    <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+    <div class="container" style="overflow: auto; max-width: 90%;">
+        <div class="row mb-3">
+            <div class="col text-end">
+                <a href="/" class="btn btn-link back-icon">
+                    <i class="bi bi-arrow-left-circle"></i>
+                </a>
+            </div>
+        </div>
+
+        <h1>写真をアップロード</h1>
+        <form id="uploadForm" action="/photo_upload" method="POST" enctype="multipart/form-data">
+            <div class="mb-3 mx-auto" style="max-width: 600px;">
+                <label for="folderName" class="form-label">フォルダ名</label>
+                <input type="text" class="form-control" id="folderName" name="folderName" required>
+            </div>
+            <div class="mb-3 mx-auto" style="max-width: 600px;">
+                <label for="photo" class="form-label">写真</label>
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/*" multiple required>
+            </div>
+            <div class="mb-3 text-center">
+                <button type="submit" class="btn btn-custom">アップロード</button>
+            </div>
+        </form>
+
+        <hr>
+
+        <h2>フォルダを管理</h2>
+        <div id="folderContainer" style="z-index: 1;"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                loadFolders();
+            });
+
+            async function loadFolders() {
+                const response = await fetch('/load_folders');
+                const data = await response.json();
+
+                const folderContainer = document.getElementById('folderContainer');
+                folderContainer.innerHTML = '';
+
+                for (const folder of data.folders) {
+                    const folderDiv = document.createElement('div');
+                    folderDiv.className = 'folder mb-4';
+
+                    const folderHeader = document.createElement('div');
+                    folderHeader.className = 'd-flex justify-content-between align-items-center';
+
+                    const folderName = document.createElement('h3');
+                    folderName.textContent = folder.name;
+                    folderHeader.appendChild(folderName);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'btn btn-danger';
+                    deleteButton.textContent = '削除';
+                    deleteButton.onclick = () => deleteFolder(folder.name);
+                    folderHeader.appendChild(deleteButton);
+
+                    folderDiv.appendChild(folderHeader);
+
+                    const uploadForm = document.createElement('form');
+                    uploadForm.className = 'uploadForm';
+                    uploadForm.action = '/photo_upload?folderName=' + folder.name;
+                    uploadForm.method = 'POST';
+                    uploadForm.enctype = 'multipart/form-data';
+
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.name = 'photo';
+                    fileInput.accept = 'image/*';
+                    fileInput.required = true;
+                    fileInput.className = 'form-control mb-2';
+                    uploadForm.appendChild(fileInput);
+
+                    const uploadButton = document.createElement('button');
+                    uploadButton.type = 'submit';
+                    uploadButton.className = 'btn btn-primary';
+                    uploadButton.textContent = 'アップロード';
+                    uploadForm.appendChild(uploadButton);
+
+                    folderDiv.appendChild(uploadForm);
+
+                    const photoContainer = document.createElement('div');
+                    photoContainer.className = 'photo-container d-flex flex-wrap';
+
+                    for (const photo of folder.photos) {
+                        const photoWrapper = document.createElement('div');
+                        photoWrapper.className = 'photo-wrapper position-relative';
+
+                        const img = document.createElement('img');
+                        img.src = '/picture/photo_frame/' + folder.name + '/' + photo;
+                        img.className = 'photo';
+                        img.style.maxWidth = '200px';
+                        img.style.maxHeight = '200px';
+                        photoWrapper.appendChild(img);
+
+                        const deletePhotoButton = document.createElement('button');
+                        deletePhotoButton.className = 'btn btn-danger btn-sm position-absolute top-0 end-0';
+                        deletePhotoButton.textContent = '×';
+                        deletePhotoButton.onclick = () => deletePhoto(folder.name, photo);
+                        photoWrapper.appendChild(deletePhotoButton);
+
+                        photoContainer.appendChild(photoWrapper);
+                    }
+
+                    folderDiv.appendChild(photoContainer);
+                    folderContainer.appendChild(folderDiv);
+                }
+            }
+
+            function deleteFolder(folderName) {
+                fetch('/delete_folders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ folderName })
+                }).then(response => {
+                    if (response.ok) {
+                        loadFolders();
+                    }
+                });
+            }
+
+            function deletePhoto(folderName, photoName) {
+                fetch('/delete_photo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ folderName, photoName })
+                }).then(response => {
+                    if (response.ok) {
+                        loadFolders();
+                    }
+                });
+            }
+        </script>
+    </div>
+</body>
+</html>

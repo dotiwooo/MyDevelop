@@ -1,0 +1,6 @@
+CREATE TABLE dbo.Users (
+  id INT IDENTITY(1,1) NOT NULL,
+  username NVARCHAR(50) NOT NULL,
+  password NVARCHAR(255) NOT NULL,
+  name NVARCHAR(50) NOT NULL
+);

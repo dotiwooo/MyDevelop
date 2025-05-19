@@ -1,0 +1,59 @@
+/* アプリ共通部分 */
+body {
+  background-color: pink;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 100%;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.btn-custom {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ffafbd, #ffc3a0);
+  border: none;
+  color: white;
+  transition: transform 0.2s;
+  border-radius: 15px; /* 角を丸くする */
+}
+
+.btn-custom:hover {
+  transform: scale(1.05);
+  background: linear-gradient(45deg, #ffc3a0, #ffafbd);
+}
+
+.form-select, .form-control-color {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 15px;
+}
+
+.back-icon {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: blue;
+  font-size: 2rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .btn-custom {
+      font-size: 0.75rem;
+      padding: 0.5rem;
+  }
+  .form-select, .form-control-color {
+      font-size: 0.75rem;
+  }
+}

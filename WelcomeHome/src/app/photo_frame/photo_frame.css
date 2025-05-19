@@ -1,0 +1,41 @@
+.photo-frame {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* ビューポート全体の高さに合わせる */
+  margin: auto;
+  padding-top: 0; /* 上部のパディングをなくす */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* ボックスシャドウを追加 */
+  border-radius: 20px; /* 角を丸める */
+  overflow: hidden; /* コンテンツが枠を超えないようにする */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.photo {
+  position: relative;
+  height: 90vh;
+  border-radius: 20px; /* 角を丸める */
+  overflow: hidden; /* コンテンツが枠を超えないようにする */
+  display: flex;
+  box-shadow: none;
+}
+
+.fade-in {
+  animation: fadeIn 1.5s forwards;
+}
+
+.fade-out {
+  animation: fadeOut 1.5s forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(1.05);} /* 少し大きく */
+  to {opacity: 1; transform: scale(1);} /* 元のサイズに */
+}
+
+@keyframes fadeOut {
+  from {opacity: 1; transform: scale(1);} /* 元のサイズから */
+  to {opacity: 0; transform: scale(0.95);} /* 少し小さく */
+}

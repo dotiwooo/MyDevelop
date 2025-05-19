@@ -1,0 +1,35 @@
+@keyframes rainbow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+#welcome-text {
+  background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+  background-size: 1400% 1400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 10s linear infinite;
+  font-family: 'Indie Flower', cursive;
+  font-size: 10rem;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+}
+
+#guest-text {
+  font-family: 'メイリオ', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'Yu Gothic', '游ゴシック体', sans-serif;
+  font-size: 4rem;
+  color: #fff;
+  text-align: center;
+  margin-top: -20px;
+}
+
+body {
+  user-select: none; /* テキスト選択を無効化 */
+  max-width: 100%;
+  overflow-x: auto;
+  height: 100vh;
+  overflow: hidden;
+}

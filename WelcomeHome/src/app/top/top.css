@@ -1,0 +1,17 @@
+.swiper-container {
+    width: 100%;
+    padding: 1rem;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#settings-button {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100; /* 他のコンテンツの上に表示 */
+}

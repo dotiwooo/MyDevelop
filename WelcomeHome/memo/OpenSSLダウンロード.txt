@@ -1,0 +1,53 @@
+OpenSSLをダウンロードしてインストールする方法を説明します。以下の手順に従ってください。
+
+### Windowsの場合
+
+1. **OpenSSLのインストーラーをダウンロード**:
+    - [Shining Light Productionsのサイト](https://slproweb.com/products/Win32OpenSSL.html)にアクセスします³。
+    - ページ内の「Download Win32/Win64 OpenSSL」セクションから、適切なバージョンを選択します。通常は「Win64 OpenSSL v3.x.x Light」を選びます。
+
+2. **インストーラーを実行**:
+    - ダウンロードしたインストーラー（例：`Win64OpenSSL_Light-3_x_x.msi`）をダブルクリックして実行します。
+    - インストールウィザードに従ってインストールを進めます。ライセンスに同意し、インストール先を指定します。
+
+3. **Visual C++再配布パッケージのインストール**:
+    - OpenSSLを使用するには、事前にMicrosoftのVisual C++再配布パッケージが必要です¹。
+    - [Microsoftの公式サイト](https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-160)から、適切なバージョン（通常はx64）をダウンロードしてインストールします。
+
+### macOSの場合
+
+1. **Homebrewを使用してインストール**:
+    - ターミナルを開き、以下のコマンドを実行します：
+      ```sh
+      brew install openssl
+      ```
+
+2. **パスを設定**:
+    - OpenSSLのパスを設定するために、以下のコマンドを実行します：
+      ```sh
+      echo 'export PATH="/usr/local/opt/openssl/bin:$PATH"' >> ~/.zshrc
+      source ~/.zshrc
+      ```
+
+### Linuxの場合
+
+1. **パッケージマネージャーを使用してインストール**:
+    - Debian系（Ubuntuなど）の場合：
+      ```sh
+      sudo apt-get update
+      sudo apt-get install openssl
+      ```
+    - RedHat系（CentOSなど）の場合：
+      ```sh
+      sudo yum install openssl
+      ```
+
+これで、OpenSSLがインストールされ、使用できるようになります。何か他に質問があれば教えてください！
+
+ソース: Copilot との会話、 2024/7/30
+(1) 【Windows】OpenSSLコマンドを使用するインストール手順 .... https://genchan.net/it/pc/windows/11776/.
+(2) 【Windows 11対応】WindowsにOpenSSLをインストールして .... https://atmarkit.itmedia.co.jp/ait/articles/1601/29/news043.html.
+(3) OpenSSLをWindowsにインストールする - アンドエンジニア. https://and-engineer.com/articles/ZOWfGBIAACMAFsFP.
+(4) Windows にopenssl をインストール | Oji-Cloud. https://oji-cloud.net/2021/03/26/post-6040/.
+(5) 【Windows】OpenSSL とは？インストールから初期設定まで .... https://pkiwithadcs.com/install_openssl_tool/.
+(6) undefined. https://slproweb.com/products/Win32OpenSSL.html.

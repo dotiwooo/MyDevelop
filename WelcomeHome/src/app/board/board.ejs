@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伝言板</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="board.css">
+    <link rel="stylesheet" href="/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="container position-relative">
+        <div class="row mb-3">
+            <div class="col text-end">
+                <a href="/" class="btn btn-link back-icon">
+                    <i class="bi bi-arrow-left-circle"></i>
+                </a>
+            </div>
+        </div>
+        <div class="row canvas-container">
+            <div class="col">
+                <canvas id="drawingCanvas" class="border"></canvas>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col d-flex justify-content-center flex-wrap">
+                <div class="btn-group me-2 mb-2 position-relative">
+                    <button id="pen" class="btn btn-custom">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <div id="penSettings" class="dropdown-menu p-2">
+                        <div class="mb-3">
+                            <label for="penShape" class="form-label">形</label>
+                            <select id="penShape" class="form-select">
+                                <option value="round">丸</option>
+                                <option value="square">四角</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="penSize" class="form-label">サイズ</label>
+                            <select id="penSize" class="form-select">
+                                <option value="2">2px</option>
+                                <option value="5">5px</option>
+                                <option value="10">10px</option>
+                                <option value="20">20px</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="colorPicker" class="form-label">色</label>
+                            <input type="color" id="colorPicker" class="form-control form-control-color" value="#000000">
+                        </div>
+                        <div class="palette" id="colorPalette">
+                            <div style="background-color: #000000;"></div>
+                            <div style="background-color: #ff0000;"></div>
+                            <div style="background-color: #00ff00;"></div>
+                            <div style="background-color: #0000ff;"></div>
+                            <div style="background-color: #ffff00;"></div>
+                            <div style="background-color: #00ffff;"></div>
+                            <div style="background-color: #ff00ff;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group me-2 mb-2 position-relative">
+                    <button id="eraser" class="btn btn-custom">
+                        <i class="bi bi-eraser"></i>
+                    </button>
+                    <div id="eraserSettings" class="dropdown-menu p-2">
+                        <div class="mb-3">
+                            <label for="eraserShape" class="form-label">形</label>
+                            <select id="eraserShape" class="form-select">
+                                <option value="round">丸</option>
+                                <option value="square">四角</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eraserSize" class="form-label">サイズ</label>
+                            <select id="eraserSize" class="form-select">
+                                <option value="2">2px</option>
+                                <option value="5">5px</option>
+                                <option value="10">10px</option>
+                                <option value="20">20px</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group me-2 mb-2">
+                    <button id="undo" class="btn btn-custom">
+                        <i class="bi bi-arrow-left"></i>
+                    </button>
+                    <button id="redo" class="btn btn-custom">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="btn-group me-2 mb-2">
+                    <button id="clear" class="btn btn-custom">クリア</button>
+                </div>
+                <div class="btn-group me-2 mb-2">
+                    <button id="save" class="btn btn-custom">保存</button>
+                </div>
+                <div class="btn-group me-2 mb-2">
+                    <button id="lock" class="btn btn-custom">ロック</button>
+                </div>
+                <div class="btn-group me-2 mb-2">
+                    <button id="zoomIn" class="btn btn-custom"><i class="bi bi-zoom-in"></i></button>
+                    <button id="zoomOut" class="btn btn-custom"><i class="bi bi-zoom-out"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const penButton = document.getElementById('pen');
+            const eraserButton = document.getElementById('eraser');
+            const penShape = document.getElementById('penShape');
+            const penSize = document.getElementById('penSize');
+            const colorPicker = document.getElementById('colorPicker');
+            const eraserShape = document.getElementById('eraserShape');
+            const eraserSize = document.getElementById('eraserSize');
+            const undoButton = document.getElementById('undo');
+            const redoButton = document.getElementById('redo');
+            const saveButton = document.getElementById('save');
+            const clearButton = document.getElementById('clear');
+            const lockButton = document.getElementById('lock');
+            const zoomInButton = document.getElementById('zoomIn');
+            const zoomOutButton = document.getElementById('zoomOut');
+            const colorPalette = document.getElementById('colorPalette');
+
+            const penSettings = document.getElementById('penSettings');
+            const eraserSettings = document.getElementById('eraserSettings');
+
+            let drawing = false;
+            let erasing = false;
+            let color = '#000000';
+            let shape = 'round';
+            let size = 2;
+            let drawings = [];
+            let undone = [];
+            let currentStep = -1;
+            let locked = false;
+            let scaleFactor = 1.0;
+
+            canvas.width = window.innerWidth - 40;
+            canvas.height = window.innerHeight - 200;
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const toggleLock = () => {
+                locked = !locked;
+                if (locked) {
+                    lockButton.classList.add('btn-danger');
+                } else {
+                    lockButton.classList.remove('btn-danger');
+                }
+                document.querySelectorAll('.btn-group button').forEach(button => {
+                    if (button.id !== 'lock' && button.id !== 'pen' && button.id !== 'eraser') {
+                        button.disabled = locked;
+                    }
+                });
+            };
+
+            lockButton.addEventListener('click', toggleLock);
+
+            const toggleMenu = (button, menu) => {
+                menu.classList.toggle('show');
+                const rect = button.getBoundingClientRect();
+                menu.style.left = `${rect.left}px`;
+                menu.style.bottom = `${window.innerHeight - rect.top}px`;
+            };
+
+            penButton.addEventListener('click', () => {
+                if (locked) return;
+                erasing = false;
+                toggleMenu(penButton, penSettings);
+            });
+
+            eraserButton.addEventListener('click', () => {
+                if (locked) return;
+                erasing = true;
+                toggleMenu(eraserButton, eraserSettings);
+            });
+
+            penShape.addEventListener('change', () => {
+                shape = penShape.value;
+            });
+
+            penSize.addEventListener('change', () => {
+                size = parseInt(penSize.value, 10);
+            });
+
+            colorPicker.addEventListener('input', () => {
+                color = colorPicker.value;
+                document.querySelector('.palette div.selected').classList.remove('selected');
+            });
+
+            eraserShape.addEventListener('change', () => {
+                shape = eraserShape.value;
+            });
+
+            eraserSize.addEventListener('change', () => {
+                size = parseInt(eraserSize.value, 10);
+            });
+
+            undoButton.addEventListener('click', () => {
+                if (locked) return;
+                if (currentStep >= 0) {
+                    undone.push(drawings.pop());
+                    currentStep--;
+                    loadDrawings();
+                }
+            });
+
+            redoButton.addEventListener('click', () => {
+                if (locked) return;
+                if (undone.length > 0) {
+                    drawings.push(undone.pop());
+                    currentStep++;
+                    loadDrawings();
+                }
+            });
+
+            saveButton.addEventListener('click', () => {
+                if (locked) return;
+                saveDrawings();
+            });
+
+            clearButton.addEventListener('click', () => {
+                if (locked) return;
+                clearCanvas();
+            });
+
+            const startDrawing = (event) => {
+                if (locked) return;
+                drawing = true;
+                currentStep++;
+                drawings.push({
+                    color: erasing ? 'white' : color,
+                    width: size,
+                    shape: shape,
+                    points: []
+                });
+                const pos = getMousePos(event);
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                drawings[currentStep].points.push(pos);
+                event.preventDefault();
+            };
+
+            const draw = (event) => {
+                if (!drawing) return;
+                const pos = getMousePos(event);
+                ctx.lineWidth = erasing ? size : size;
+                ctx.lineCap = shape;
+                ctx.strokeStyle = erasing ? 'white' : color;
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                drawings[currentStep].points.push(pos);
+                event.preventDefault();
+            };
+
+            const stopDrawing = () => {
+                drawing = false;
+                ctx.closePath();
+                currentStep = drawings.length - 1;
+            };
+
+            const clearCanvas = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                drawings = [];
+                undone = [];
+                currentStep = -1;
+            };
+
+            const loadDrawings = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                drawings.forEach(drawing => {
+                    if (drawing.points && drawing.points.length > 0) {
+                        ctx.strokeStyle = drawing.color;
+                        ctx.lineWidth = drawing.width;
+                        ctx.lineCap = drawing.shape;
+                        ctx.beginPath();
+                        ctx.moveTo(drawing.points[0].x, drawing.points[0].y);
+                        drawing.points.forEach(point => {
+                            ctx.lineTo(point.x, point.y);
+                        });
+                        ctx.stroke();
+                    }
+                });
+            };
+
+            const saveDrawings = () => {
+                fetch('/board', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(drawings)
+                });
+            };
+
+            const getMousePos = (event) => {
+                const rect = canvas.getBoundingClientRect();
+                return {
+                    x: (event.clientX || event.touches[0].clientX) - rect.left,
+                    y: (event.clientY || event.touches[0].clientY) - rect.top
+                };
+            };
+
+            const zoom = (factor) => {
+                scaleFactor *= factor;
+                ctx.setTransform(scaleFactor, 0, 0, scaleFactor, 0, 0);
+                loadDrawings();
+            };
+
+            zoomInButton.addEventListener('click', () => {
+                if (locked) return;
+                zoom(1.2);
+            });
+
+            zoomOutButton.addEventListener('click', () => {
+                if (locked) return;
+                zoom(0.8);
+            });
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            canvas.addEventListener('touchstart', startDrawing);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', stopDrawing);
+            canvas.addEventListener('touchcancel', stopDrawing);
+
+            colorPalette.addEventListener('click', (event) => {
+                if (event.target.style.backgroundColor) {
+                    color = event.target.style.backgroundColor;
+                    document.querySelector('.palette div.selected').classList.remove('selected');
+                    event.target.classList.add('selected');
+                }
+            });
+
+            // 初期選択色の設定
+            document.querySelector('.palette div[style*="background-color: #000000"]').classList.add('selected');
+        });
+    </script>
+</body>
+</html>

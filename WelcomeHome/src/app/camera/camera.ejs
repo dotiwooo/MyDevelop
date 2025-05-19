@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>監視カメラ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/app.css">
+    <link rel="stylesheet" href="camera.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <i class="bi bi-arrow-left-circle back-icon" onclick="goBack()"></i>
+    <div class="refresh-button-container">
+        <button class="btn btn-secondary" onclick="refreshPage()">画面を更新</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+        const MAX_COL = 3;
+        const MAX_ROW = 3;
+        // Live Capture3のIPアドレスを入力する
+        const ADDRESS_LIST = <%- JSON.stringify(ip_address_list) %>;
+
+        function init() {
+            draw();
+            setInterval(draw, 1000); // 1秒ごとに更新
+        }
+
+        function draw() {
+            const container = document.body;
+            const uniqueAddresses = [...new Set(ADDRESS_LIST)]; // 重複を排除
+
+            uniqueAddresses.forEach(address => {
+                let cameraContainer = document.querySelector(`.camera-container[data-address="${address}"]`);
+                if (!cameraContainer) {
+                    const canvas = document.createElement('canvas');
+                    const label = document.createElement('div');
+                    cameraContainer = document.createElement('div');
+
+                    cameraContainer.className = 'camera-container';
+                    cameraContainer.setAttribute('data-address', address);
+                    label.className = 'camera-label';
+                    label.textContent = address;
+
+                    canvas.width = window.innerWidth / MAX_COL;
+                    canvas.height = window.innerHeight / MAX_ROW;
+                    canvas.onclick = () => expandCanvas(address);
+
+                    cameraContainer.appendChild(label);
+                    cameraContainer.appendChild(canvas);
+                    container.appendChild(cameraContainer);
+                }
+
+                const canvas = cameraContainer.querySelector('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.onload = () => drawImage(ctx, img, canvas.width, canvas.height);
+                img.src = `http://${address}/SnapJpeg?t=${new Date().getTime()}`;
+            });
+        }
+
+        function drawImage(ctx, img, canW, canH) {
+            ctx.clearRect(0, 0, canW, canH); // キャンバスをクリア
+            const imgW = img.width;
+            const imgH = img.height;
+
+            let dstW = canW;
+            let dstH = imgH * dstW / imgW;
+            if (dstH > canH) {
+                dstH = canH;
+                dstW = imgW * dstH / imgH;
+            }
+
+            const dstX = (canW - dstW) / 2;
+            const dstY = (canH - dstH) / 2;
+
+            ctx.drawImage(img, dstX, dstY, dstW, dstH);
+        }
+
+        function expandCanvas(address) {
+            const fullscreenDiv = document.createElement('div');
+            fullscreenDiv.className = 'fullscreen-canvas';
+            const img = new Image();
+            img.src = `http://${address}/SnapJpeg?t=${new Date().getTime()}`;
+            fullscreenDiv.appendChild(img);
+
+            const cancelIcon = document.createElement('i');
+            cancelIcon.className = 'bi bi-x-circle cancel-icon';
+            cancelIcon.onclick = () => {
+                clearInterval(fullscreenInterval);
+                document.body.removeChild(fullscreenDiv);
+                document.body.removeChild(cancelIcon);
+            };
+
+            document.body.appendChild(fullscreenDiv);
+            document.body.appendChild(cancelIcon);
+
+            const fullscreenInterval = setInterval(() => {
+                img.src = `http://${address}/SnapJpeg?t=${new Date().getTime()}`;
+            }, 1000); // 1秒ごとに更新
+        }
+
+        function goBack() {
+            fetch('/').then(response => {
+                if (response.ok) {
+                    window.location.href = '/';
+                }
+            });
+        }
+
+        function refreshPage() {
+            location.reload();
+        }
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
